@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>randomly picking starwars images and details</title>
+</head>
+<body>
+    <h1>Random pokemon character</h1>
+    <button onclick="randomchoosepokemon()">Get pokemon character</button>
+    <div id="pokemoncharacterdeatils" style="text-align: center;
+    border: 2px solid black;
+    border-radius: 10px;">
+        <div id="name"></div>
+        <div id="img"></div>
+        <div id="height"></div>
+        <div id="weight"></div>
+        <div id="type"></div>
+    </div>
+    
+
+    <script>
+        function randomchoosepokemon(){
+            const total = 1302; //based on the webpage source count we take it
+            const randomId = Math.ceil(Math.random()*total)+1;
+            const url = `https://pokeapi.co/api/v2/pokemon/${randomId}`;
+
+            //fetch the url
+            fetch(url)
+              .then(response => response.json())
+              .then(data =>{
+                console.log(data);
+                document.getElementById("name").innerHTML=`
+                <h2>Name: <i>${data.name}</i></h2>`;
+                console.log(data.name);
+                document.getElementById("height").innerHTML = ` 
+                <p>height: ${data.height}</p>`;
+                console.log(data.height);
+                document.getElementById("weight").innerHTML = ` 
+                <p>weight: ${data.weight}</p>`;
+                console.log(data.weight);
+                document.getElementById("type").innerHTML = ` 
+                <p> type of pokemon is => <b>${data.types.map(t => t.type.name).join(', ')}</b></p>`;
+                console.log(data.types.map(t => t.type.name).join(', '));
+                document.getElementById("img").innerHTML = `
+                <img src="${data.sprites.front_shiny}" alt="${data.name}">`
+                console.log(data.sprites.front_shiny);
+
+              })
+        }
+        
+    </script>
+</body>
+</html>
